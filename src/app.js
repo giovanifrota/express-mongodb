@@ -1,5 +1,7 @@
 import express from 'express';
 import conectaNaDatabase from './config/dbConnect.js';
+import livro from './Models/livros.js';
+
 
 const conexao = await conectaNaDatabase();
 
@@ -14,29 +16,14 @@ conexao.once("open", () => {
 const app = express();
 app.use(express.json())
 
-const livros = [
-    {
-        id: 1,
-        titulo: "O senhor dos Aneis"
-    },
-    {
-        id: 2,
-        titulo: "O hobbit"
-    }
-]
-
-function buscarLivros(id){
-    return livros.findIndex(livro => {
-        return livro.id === Number(id);
-    });
-}
 
 app.get("/", (req, res) => {
     res.status(200).send("Curso de Node.JS");
 });
 
-app.get("/livros", (req, res) => {
-    res.status(200).json(livros);
+app.get("/livros", async (req, res) => {
+    const listaLivros = await livro.find({});//É um metodo do mongoose que vai se conectar com banco atlas vai encontra(find) tudo na coleção livros
+    res.status(200).json(listaLivros);
 });
 
 app.get("/livros/:id", (req, res) => {
