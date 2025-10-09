@@ -14,16 +14,11 @@ conexao.once("open", () => {
 });
 
 const app = express();
-app.use(express.json())
+app.use(express.json());
 
 
 app.get("/", (req, res) => {
     res.status(200).send("Curso de Node.JS");
-});
-
-app.get("/livros", async (req, res) => {
-    const listaLivros = await livro.find({});//É um metodo do mongoose que vai se conectar com banco atlas vai encontra(find) tudo na coleção livros
-    res.status(200).json(listaLivros);
 });
 
 app.get("/livros/:id", (req, res) => {
